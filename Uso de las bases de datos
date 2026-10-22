@@ -1,0 +1,84 @@
+                                        Uso de las bases de datos
+
+
+ArrayList: Es una estructura de datos de Java que permite almacenar una colección de elementos en una secuencia el cual puede cambiar o disminuir su tamaño dependiendo lo que se necesite.
+En nuestra aplicación no sabemos exactamente cuantos productos podría llegar a tener el pedido, por ende aunque todos sean pedidos de diferentes usuarios, no todos van a tener el mismo tamaño.
+
+Por eso necesitamos una colección que permita agregar tantos detalles como sean necesarios.
+
+Ahora miraremos como se ve esto en nuestro programa:
+
+Cuando creamos un pedido, el constructor inicializa la lista vacía:
+
+this.detalles = new ArrayList<>();
+
+Luego, cada vez que se agrega un producto al pedido, se crea un objeto DetallePedido y se añade a la lista:
+
+public void agregarProducto(Producto producto, int cantidad) {
+    DetallePedido detalle = new DetallePedido(producto, cantidad);
+    detalles.add(detalle);
+}
+
+La cual guarda el nombre del producto, y los objetos de “DetallePedido” y para calcular el total, el método calcularTotal() recorre los detalles y suma sus subtotales:
+
+double total = 0;
+
+for (DetallePedido detalle : detalles) {
+    total += detalle.calcularSubtotal();
+}
+
+
+Cola: Es una estructura de datos que sigue el principio FIFO (First In, First Out), que significa «primero en entrar, primero en salir».
+En FoodFlow necesitamos este comportamiento porque los pedidos deben atenderse respetando el orden en que fueron agregados. De esta manera, un pedido reciente no pasa por delante de otro que lleva más tiempo esperando.
+
+En nuestro programa la implementarimos en el constructor de Restaurante.java:
+
+pedidosPendientes = new LinkedList<>();
+
+En nuestro programa y por ser java, en el uso de la cola vamos a realizarlo con estos tres metodos especialmente importantes:
+
+offer(pedido) Agrega un pedido al final de la cola.
+peek() Consulta el primer pedido sin eliminarlo.
+poll() Obtiene y elimina el primer pedido.
+
+Pedido pedido = pedidosPendientes.poll();
+
+El pedido más antiguo sale de la cola. Por eso, una vez atendido, deja de aparecer en la opción 2.
+Por otro lado, cuando utilizamos:
+
+Pedido pedido = pedidosPendientes.peek();
+
+Podemos consultar el siguiente pedido sin quitarlo. Esto resulta útil para conocer qué pedido se atendería a continuación.
+
+
+Pila: Es una estructura de datos que sigue el principio LIFO (Last In, First Out), que significa «último en entrar, primero en salir».
+En FoodFlow utilizamos esta idea para identificar el pedido que se agregó más recientemente, de manera que el usuario pueda solicitar su eliminación si todavía está pendiente.
+
+La implementaremos Iniciando la pila en el constructor de Restaurante.java con:
+
+historialAgregados = new Stack<>();
+
+Cuando agregamos un pedido al restaurante, lo guardamos tanto en la cola de pendientes como en la pila:
+
+public void agregarPedido(Pedido pedido) {
+    pedidosPendientes.offer(pedido);
+    historialAgregados.push(pedido);
+
+    System.out.println("Pedido agregado a la cola.");
+}
+
+Las funciones que cumplen cada estructura mostrada son:
+pedidosPendientes.offer(pedido) registra el pedido para su futura atención.
+historialAgregados.push(pedido) registra el pedido en la pila, en la posición superior.
+
+Luego para consultar el último pedido agregado, utilizamos:
+
+Pedido ultimo = historialAgregados.peek();
+
+El método peek() permite observar el elemento superior sin retirarlo. Esto en importante porque en la funcion que estamos realizando primero queremos que el usuario pueda ver que esta eliminando y ahi si dar como una segunda autorizacion para asi eliminar el pedido definitivamentees, eliminando asi el pedido en ambas estructuras:
+
+pedidosPendientes.remove(ultimo);
+historialAgregados.pop();
+
+Utilizando tanto .remove() para eliminar el pedido de la cola, como .pop() para retirarlo de la pila
+
