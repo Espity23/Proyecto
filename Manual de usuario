@@ -1,0 +1,109 @@
+                                                MANUAL DE USUARIO
+1. Introducción
+
+FoodFlow es una aplicación desarrollada en Java la cual permite gestionar los pedidos de un restaurante mediante una interfaz de terminal. El programa permite crear pedidos con diferentes productos y cantidades, calcular sus subtotales y totales, consultar los pedidos pendientes, atenderlos en orden de llegada y eliminar el último pedido agregado cuando todavía está pendiente.Todo esto con el fin de facilitar la organización de pedidos en un restaurante mediante el uso de diferentes estructuras de datos.
+
+2. Requisitos para ejecutar el programa
+
+Para ejecutar FoodFlow se necesita:
+
+- Un computador con Java Development Kit (JDK) instalado.
+- Los archivos fuente del proyecto: "Hola.java", "Producto.java", "DetallePedido.java", "Pedido.java" y "Restaurante.java".
+- Una terminal o un entorno de desarrollo, como Visual Studio Code.
+
+El proyecto fue desarrollado utilizando Java JDK 21.
+
+3. Instrucciones de ejecución
+
+1. Abrir la carpeta del proyecto en Visual Studio Code o en una terminal.
+
+2. Verificar que los cinco archivos ".java" estén ubicados en la misma carpeta y que no dependan de paquetes adicionales.
+
+3. Abrir una terminal en dicha carpeta.
+
+4. Compilar el programa con el siguiente comando:
+   
+   "javac Hola.java Producto.java DetallePedido.java Pedido.java Restaurante.java"
+
+5. Ejecutar el programa con:
+   
+   "java Hola"
+
+6. Esperar a que aparezca el menú principal de FoodFlow.
+
+4. Menú principal
+
+Al iniciar la aplicación, se presenta un menú con las siguientes opciones:
+
+1. Crear pedido.
+2. Ver pedidos pendientes.
+3. Eliminar último pedido agregado.
+4. Atender el siguiente pedido.
+5. Salir.
+
+El usuario debe escribir el número correspondiente a la operación que desea realizar.
+
+5. Funcionalidades del sistema
+
+5.1. Crear pedido
+
+Esta opción permite registrar un nuevo pedido.
+
+El programa muestra los productos disponibles y sus precios:
+
+- Hamburguesa: $15.000.
+- Pizza: $20.000.
+- Limonada: $5.000.
+-Malteada: $10.000.
+
+El usuario selecciona un producto e indica la cantidad deseada. Después puede agregar otros productos al mismo pedido respondiendo "S" cuando se le pregunte si desea continuar.
+
+Cuando responde "N", el programa registra el pedido, muestra sus detalles y calcula el total correspondiente.
+
+Ejemplo: si se agregan dos hamburguesas y una limonada, el total será de $35.000.
+
+5.2. Ver pedidos pendientes
+
+Esta opción muestra los pedidos que todavía no han sido atendidos.
+
+Para cada pedido se presentan su número, los productos incluidos, las cantidades, los subtotales y el total.
+
+Si no hay pedidos pendientes, el programa muestra un mensaje informativo.
+
+Los pedidos atendidos no aparecen en esta consulta porque son retirados de la cola de pendientes cuando se atienden.
+
+5.3. Eliminar último pedido agregado
+
+Esta opción permite intentar eliminar el pedido agregado más recientemente.
+
+El programa muestra la información del pedido y solicita confirmación mediante una respuesta "S" o "N".
+
+- Si el usuario confirma con "S" y el pedido sigue pendiente, se elimina de la cola y del historial de agregados.
+- Si responde "N", la eliminación se cancela.
+- Si el pedido ya fue atendido, el programa informa que no puede eliminarse.
+
+Si no hay pedidos en el historial, se muestra un mensaje informativo.
+
+5.4. Atender el siguiente pedido
+
+Esta opción atiende el pedido más antiguo de la cola.
+
+El programa muestra los productos, las cantidades y el total del pedido atendido. Una vez procesado, el pedido se retira de la cola y deja de aparecer en la lista de pendientes.
+
+Si no existen pedidos pendientes, el programa informa que no hay pedidos para atender.
+
+5.5. Salir
+
+Esta opción termina la ejecución del programa. Para utilizarla, el usuario debe seleccionar el número 5 en el menú principal.
+
+6. Limitaciones del sistema
+
+FoodFlow es una aplicación de consola orientada al desarrollo de diferentes tipos de pedidos simulando la ejecución de un programa en un restaurante. El catálogo de productos está definido en el código y el programa no utiliza una base de datos ni guarda los pedidos permanentemente en archivos.
+
+Por esta razón, los pedidos se administran durante la ejecución del programa. Al finalizarlo, la información almacenada en memoria no se conserva para la siguiente ejecución.
+
+7. Conclusión
+
+FoodFlow permite administrar pedidos mediante una interfaz sencilla de terminal. Sus funcionalidades principales incluyen crear pedidos con varios productos, calcular totales, consultar pedidos pendientes, atenderlos en orden de llegada y eliminar el último pedido agregado cuando corresponda.
+
+El sistema utiliza estructuras de datos que permiten organizar la información y administrar las operaciones de manera ordenada facilitando el desarrollo de dichas actividad de una forma clara y sencilla.
