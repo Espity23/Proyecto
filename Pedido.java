@@ -1,46 +1,51 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Pedido {
-
-    //Agregamos la clase pedido y le asignamigos un numero y un arreglo en el cual vna a ver dato de DetallePedido.java
+    // Declaración de atributos 
     private int numero;
     private ArrayList<DetallePedido> detalles;
 
-
+    // Constructor
     public Pedido(int numero) {
         this.numero = numero;
-        this.detalles = new ArrayList<>();
+        this.detalles = new ArrayList<>(); // Arreglo vacío
     }
 
-    //Agregamos le contenido que va tener nuestro arreglo
-    public void agregarProducto(Producto producto, int cantidad){
-        DetallePedido detalle = new DetallePedido(producto, cantidad);
-        detalles.add(detalle);
+    // Getters 
+    public int getNumero() { return numero; }
+    
+    public List<DetallePedido> getDetalles() {
+        return Collections.unmodifiableList(detalles);
     }
 
+    // Agrega un producto al final del arreglo
+    public void agregarProducto(Producto producto, int cantidad) {
+        detalles.add(new DetallePedido(producto, cantidad));
+    }
 
-    //Calculamos el total de todos los productos que haya en el pedido.
+    // Borra el ultimo elemento del arreglo
+    public void quitarDetalle(int indice) {
+        detalles.remove(indice);
+    }
+
+    // Calcula el total del pedido sumando subtotales de cada producto
     public double calcularTotal() {
         double total = 0;
-    
-        //utilizamos este for-each para recorrer el arreglo y que suma el valor de todos
-        for (DetallePedido detalle : detalles){
+        for (DetallePedido detalle : detalles) {
             total += detalle.calcularSubtotal();
         }
         return total;
     }
 
-
-    //Realizamos todos lo que va a aparecer en la terminal
-    public void mostrarPedido() {
-        System.out.println("Pedido #" + numero);
-        System.out.println("-----Productos-----");
-
-        //Realizamos un for-each para recorrer todo el arreglo y que imprima todos los productos dentro del pedido
-        for (DetallePedido detalle: detalles){
-            detalle.mostrarDetalle();
+    // Ej: "2 x Hamburguesa, 1 x Pizza"     
+    public String resumen() {
+        StringBuilder sb = new StringBuilder();
+        for (DetallePedido d : detalles) {
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(d);
         }
-        System.out.println("Total: $" + calcularTotal());
-        System.out.println();
+        return sb.toString();
     }
 }

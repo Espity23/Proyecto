@@ -1,107 +1,59 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.Stack;
-//Antes que nada añadimos las librerias que vamos a utilizar en la mayor parte del restaurante
-//LinkedList para los Array
-//Queue implementa lo necesario para el desarollo de la cola
-//Scanner paraque pueda leer lo que el usuario escriba
-//Stack implementa lo necesario para el desarollo de la pila
+
 public class Restaurante {
+    private final List<Producto> menu = new ArrayList<>();  // Crea un arreglo que contendrá cada producto del menú
+    private Queue<Pedido> pedidosPendientes = new LinkedList<>(); // Cola con los pedidos creados: principio FIFO
+    private Stack<Pedido> historialAgregados = new Stack<>();     // Pila para deshacer pedidos (si es necesario): principio LIFO
+    private int numeroPedido = 1;
 
-    //Declaramos las variables para la cola y la pila
-    private Queue<Pedido> pedidosPendientes;
-    private Stack<Pedido> historialAgregados;
-
+    // Productos a mostrar y su precio
     public Restaurante() {
-
-        //Designamos las variables
-        pedidosPendientes = new LinkedList<>();
-        historialAgregados = new Stack<>();
+        menu.add(new Producto("Hamburguesa", 15000));
+        menu.add(new Producto("Pizza", 20000));
+        menu.add(new Producto("Limonada", 5000));
+        menu.add(new Producto("Malteada", 10000));
     }
 
-    //Añadimos el contenido de las variables
-    public void agregarPedido(Pedido pedido) {
-        pedidosPendientes.offer(pedido);
-        historialAgregados.push(pedido);
+    public List<Producto> getMenu() { return Collections.unmodifiableList(menu); }
 
-        System.out.println("Pedido agregado a la cola.");
-    }
-
-
-    //Uilizamos .peek() para mirar el ultimo elemento agregado sin sacarlo
-    public void verSiguientePedido() {
-        Pedido pedido = pedidosPendientes.peek();
-
-        //Dependendiendo del contenido del pedido se realizan ciertas acciones
-        if (pedido == null) {
-            System.out.println("No hay pedidos pendientes.");
-        } else {
-            System.out.println("Siguiente pedido pendiente:");
-            pedido.mostrarPedido();
-        }
-    }
-
-    //Mostramos todos los pedidos que tenemos en la lista
-    public void verPedidosPendientes(){
-        if(pedidosPendientes.isEmpty()){
-            System.out.println("No hay pedidos pendientes");
-            return;
-        }
-        System.out.println("\n---Pedidos pendientes ---");
-
-        for(Pedido pedido : pedidosPendientes){
-            pedido.mostrarPedido();
-        }
-        System.out.println("----------------");
-    }
-
-    //Uilizamos .poll() para atrapar el ultimo pedido y a su vez eliminarlo
-    public void atenderSiguientePedido() {
-        Pedido pedido = pedidosPendientes.poll();
-
-        //Dependiendo de lo conseguido por .poll realizamos las acciones
-        if (pedido == null) {
-            System.out.println("No hay pedidos pendientes.");
-        } else {
-            System.out.println("Atendiendo el siguiente pedido:");
-            pedido.mostrarPedido();
-        }
-
-    }
+    public int getSiguienteNumero() { return numeroPedido; }
     
-    //Creamos el metodo para quitar el ultimo pedido agregado
-    public void deshacerUltimoPedidoAgregado(Scanner sc) {
+    
+    public void agregarPedido(Pedido pedido) {
+        pedidosPendientes.offer(pedido);    // Agrega el pedido a la cola de espera
+        historialAgregados.push(pedido);    // Almacena el pedido en la pila del historial
+        numeroPedido++;     // El número del siguente pedido para la siguiente iteración
+    }
 
-        //Verificamos si la lista esta vacia
-        if (historialAgregados.empty()) {
-            System.out.println("No hay pedidos en el historial.");
-            return;
-        }
+    // Copia de la cola, en orden de atención
+    public List<Pedido> getPedidosPendientes() { return new ArrayList<>(pedidosPendientes); }
 
+    // peek: mira el siguiente sin sacarlo (null si no hay)
+    public Pedido verSiguientePedido() { return pedidosPendientes.peek(); }
 
-        //Mostramos el ultimo pedido agregado sin quitarlo
-        Pedido ultimo = historialAgregados.peek();
-        System.out.println("\n ---- Ultimo pedido agregado:");
-        ultimo.mostrarPedido();
+    // poll: saca el siguiente de la cola (null si no hay)
+    public Pedido atenderSiguientePedido() { return pedidosPendientes.poll(); }
 
-        //Verificamos el contenido de la lista
-        if(!pedidosPendientes.contains(ultimo)){
-            System.out.println("Este pedido ya fue atendido, por ende no se puede eliminar.");
-            return;
-        }
+    // Muestra el ultimo pedido agregado a la pila
+    public Pedido getUltimoAgregado() {
+        return historialAgregados.empty() ? null : historialAgregados.peek();
+    }
 
-        //Confirmamos la autorizacion
-        System.out.println("Seguro que desea eliminar el este pedido? (S/N)");
-        String respuesta = sc.next();
+    // Solo se puede deshacer si el último agregado todavía no fue atendido
+    public boolean puedeDeshacerUltimo() {
+        Pedido ultimo = getUltimoAgregado();
+        return ultimo != null && pedidosPendientes.contains(ultimo);
+    }
 
-        //Realizamos la operacion correspondiente de lo escrito anterior
-        if(respuesta.equalsIgnoreCase("S")){
-            pedidosPendientes.remove(ultimo);
-            historialAgregados.pop();
-            System.out.println("Pedido eliminado correctamente.");
-        }else{
-            System.err.println("Se cancelo la operacion.");
-        }
+    // Si el pedido no está en pendientes, se puede eliminar de la cola
+    public boolean deshacerUltimoPedidoAgregado() {
+        if (!puedeDeshacerUltimo()) return false;
+        pedidosPendientes.remove(historialAgregados.pop());
+        return true;
     }
 }

@@ -1,26 +1,31 @@
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 public class Producto {
 
-    //Presentamos la clase producto la cual cada una tiene tiene su nombre y precio
+    // Formato de moneda 
+    private static final DecimalFormat FORMATO =
+        new DecimalFormat("$#,##0", DecimalFormatSymbols.getInstance(Locale.forLanguageTag("es-CO")));
 
-    private String nombre;
-    private double precio;
+    // Atributos para cada producto
+    final private String nombre;
+    final private double precio;
 
-    //Declaramos su nombre y precio
-    public Producto(String nombre, double precio){
-        this.nombre=nombre;
-        this.precio=precio;
-    }
-    
-    public String getNombre(){
-        return nombre;
-    }
-
-    public double getPrecio(){
-        return precio;
+    // Método constructor
+    public Producto(String nombre, double precio) {
+        this.nombre = nombre;
+        this.precio = precio;
     }
 
-    //Muestr el nombre y precio del producto ya terminado en la terminal
-    public void mostrarInformacion(){
-        System.out.println(nombre + " - $" + precio);
-    }
+    // Getters
+    public String getNombre() { return nombre; }
+    public double getPrecio() { return precio; }
+
+    // Convertir el valor del precio a string
+    public static String moneda(double valor) { return FORMATO.format(valor); }
+
+    // Lo usa el JComboBox para mostrar cada producto
+    @Override
+    public String toString() { return nombre + " - " + moneda(precio); }
 }

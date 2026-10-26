@@ -1,25 +1,24 @@
-
 public class DetallePedido {
 
-    //Creamos las especificaciones de cada producto, esto incluyendo lo de un producto normal mas la cantidad de ello
+    // Definición de los atributos 
     private Producto producto;
     private int cantidad;
-
-    //Por esa razon utilizamos Producto producto, para asi ya no utilizar las variables nombre y precio que se
-    //declararon anteriormente en Producto.java
+    
+    // Método constructor
     public DetallePedido(Producto producto, int cantidad) {
         this.producto = producto;
         this.cantidad = cantidad;
     }
+    
+    // Getters
+    public Producto getProducto() { return producto; }
+    public int getCantidad() { return cantidad; }
 
-    //Calculamos el total de cada producto
+    // Calcular subtotal para cada producto según cantidad
     public double calcularSubtotal() {
         return producto.getPrecio() * cantidad;
     }
 
-    //Enseñamos lo que se va a mostrar en la terminal
-    public void mostrarDetalle() {
-        System.out.println(producto.getNombre() + " x " + cantidad + " = $" + calcularSubtotal()
-        );
-    }
+    @Override
+    public String toString() { return cantidad + " x " + producto.getNombre(); }
 }
