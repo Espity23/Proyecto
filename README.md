@@ -38,9 +38,9 @@ Este proyecto para su realizacion tuvo partes de su desarollo con la asistencia 
 
 
 - Desarollado por:
-  David Santiago Peláez Forero dpelaezf@unal.edu.co
-  Andres Camilo Espitia aespitiac@unal.edu.co
-  Diego Alejandro Rodríguez González dierodriguezgo@unal.edu.co
++David Santiago Peláez Forero dpelaezf@unal.edu.co
++Andres Camilo Espitia aespitiac@unal.edu.co
++Diego Alejandro Rodríguez González dierodriguezgo@unal.edu.co
 
 - Asignatura: Estructura de datos
 - Institución: Universidad Nacional de Colombia
